@@ -1,0 +1,34 @@
+- name: Add the user 'juri' with the home directory
+  ansible.builtin.user:
+    name: juri
+    state: present
+    createhome: yes
+
+- name: Add the user 'roman' with the home directory
+  ansible.builtin.user:
+    name: roman
+    createhome: true
+    home: "/home/roman"
+
+- name: Set authorized key for 'juri'
+  ansible.posix.authorized_key:
+    user: juri
+    state: present
+    key: https://github.com/hudolejev.keys
+
+- name: Set authorized key for 'roman'
+  ansible.posix.authorized_key:
+    user: roman
+    state: present
+    key: https://github.com/romankuchin.keys
+
+- name: Update APT cache
+  ansible.builtin.apt:
+    cache_valid_time: 86400
+
+#- name: Ping my hosts
+#  ansible.builtin.ping:
+
+#- name: Print message
+#  ansible.builtin.debug:
+#  msg: Hello world
