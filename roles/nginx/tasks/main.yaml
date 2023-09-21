@@ -1,3 +1,15 @@
 - name: Install the package "nginx"
   ansible.builtin.apt:
     name: nginx
+
+- name: Copy files to the remote machine
+  ansible.builtin.copy:
+    src: default
+    dest: /etc/nginx/sites-enabled/default
+  notify: Restart Nginx
+
+- name: Nginx service
+  ansible.builtin.service:
+    name: nginx
+    state: started
+    enabled: true

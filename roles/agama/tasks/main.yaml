@@ -1,0 +1,25 @@
+
+- name: Add the user 'agama' with the home directory
+  ansible.builtin.user:
+    name: agama
+    state: present
+    createhome: yes
+
+- name: create a directory if it does not exist
+  ansible.builtin.file:
+    path: /opt/agama
+    owner: agama
+    state: directory
+
+- name: Install python packages
+  ansible.builtin.apt:
+    name: python3-flask
+
+- name: Install python packages
+  ansible.builtin.apt:
+    name: python3-flask-sqlalchemy
+
+- name: Download the app agama.py
+  ansible.builtin.get_url:
+    url: https://raw.githubusercontent.com/hudolejev/agama/master/agama.py
+    dest: /opt/agama/agama.py  

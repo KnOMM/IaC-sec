@@ -1,0 +1,19 @@
+- name: Install uwsgi
+  ansible.builtin.apt:
+    name: uwsgi
+
+- name: Install uwsgi-plugin-python3
+  ansible.builtin.apt:
+    name: uwsgi-plugin-python3
+
+- name: Copy config to the remote machine
+  ansible.builtin.copy:
+    src: agama.ini
+    dest: /etc/uwsgi/apps-enabled/agama.ini
+  notify: Restart uWSGI
+
+- name: uWSGI service
+  ansible.builtin.service:
+    name: uwsgi
+    state: started
+    enabled: true
