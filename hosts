@@ -1,4 +1,9 @@
-KnOMM-1 ansible_host=193.40.156.67 ansible_port=2022 ansible_user=ubuntu
+KnOMM-1 ansible_host=193.40.156.67 ansible_port=27622 ansible_user=ubuntu
+KnOMM-2 ansible_host=193.40.156.67 ansible_port=29122 ansible_user=ubuntu
+
+[db_servers]
+KnOMM-2
 
 [web_servers]
 KnOMM-1
+

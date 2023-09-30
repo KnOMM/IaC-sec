@@ -7,9 +7,12 @@
     name: uwsgi-plugin-python3
 
 - name: Copy config to the remote machine
-  ansible.builtin.copy:
-    src: agama.ini
+  ansible.builtin.template:
+    src: agama.ini.j2
     dest: /etc/uwsgi/apps-enabled/agama.ini
+    owner: agama
+    mode: 0600
+  no_log: true
   notify: Restart uWSGI
 
 - name: uWSGI service

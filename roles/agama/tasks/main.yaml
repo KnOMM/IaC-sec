@@ -17,7 +17,9 @@
 
 - name: Install python packages
   ansible.builtin.apt:
-    name: python3-flask-sqlalchemy
+    name:
+        - python3-flask-sqlalchemy
+        - python3-pymysql
 
 - name: Download the app agama.py
   ansible.builtin.get_url:
