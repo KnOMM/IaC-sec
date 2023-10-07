@@ -1,4 +1,18 @@
-mysql_host: 192.168.43.35
+machine1: 12422
+machine2: 19322
+
+startup_name: be.bop
+
+dnsips:
+  - 1.1.1.1
+  - 8.8.8.8
+  - 9.9.9.9
+
+alips:
+  - 192.168.42.0/23
+  - 127.0.0.0/8
+
+mysql_host: KnOMM-2 
 mysql_database: agama
 mysql_user: agama
 mysql_password: !vault |

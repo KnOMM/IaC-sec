@@ -1,16 +1,27 @@
 ---
   - name: Initial setup
     hosts: all
+    become: yes
+    gather_facts: yes 
     roles:
       - init
 
+  - name: DNS servers
+    hosts: dns_servers
+    become: yes
+    gather_facts: no 
+    roles:
+      - bind
+
   - name: Database server
     hosts: db_servers
+    gather_facts: no 
     roles:
       - mysql
 
   - name: Web server
     hosts: web_servers
+    gather_facts: no 
     roles:
       - agama
       - uwsgi

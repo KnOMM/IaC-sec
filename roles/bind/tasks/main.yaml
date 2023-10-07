@@ -1,0 +1,36 @@
+- name: Install DNS server
+  ansible.builtin.apt:
+    name: bind9
+
+- name: bind9 service
+  ansible.builtin.service:
+    name: bind9
+    state: started
+    enabled: true
+
+#- debug:
+#    var: hostvars['KnOMM-1']['ansible_facts']['default_ipv4']['address']
+
+#- ansible.builtin.template:
+#    dest: /home/ubuntu/hostvars
+#    src: hostvars.j2
+
+- ansible.builtin.template:
+    dest: /etc/bind/named.conf.{{item}}
+    src: named.conf.{{item}}.j2
+  notify: Restart Bind9
+  loop:
+    - options
+    - local
+
+- ansible.builtin.template:
+    dest: /var/lib/bind/db.{{startup_name}}
+    src: zone.j2
+
+- ansible.builtin.template:
+    dest: /etc/resolv.conf
+    src: resolv.conf.j2
+  loop: "{{groups['all']}}"
+  delegate_to: "{{item}}"
+  
+    

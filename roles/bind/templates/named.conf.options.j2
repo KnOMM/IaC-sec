@@ -1,0 +1,20 @@
+acl corpnets {
+  {%- for ip in alips %}
+    {{ip}};
+  {%- endfor %}
+};
+
+options {
+        directory "/var/lib/bind";
+
+        forwarders {
+          {%- for ip in dnsips %}
+          {{ip}};
+          {%- endfor %}
+         };
+
+        allow-query { corpnets; };        
+
+        dnssec-validation no;
+};
+
