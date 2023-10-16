@@ -1,0 +1,7 @@
+node_load1
+
+node_memory_MemTotal_bytes - node_memory_MemAvailable_bytes
+
+avg_over_time(node_load5[5m])
+
+rate(node_memory_MemTotal_bytes[1m]) - rate(node_memory_MemAvailable_bytes[1m])

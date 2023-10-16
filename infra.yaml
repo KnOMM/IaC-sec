@@ -19,6 +19,12 @@
     roles:
       - mysql
 
+  - name: Prometheus metrics
+    hosts: metrics
+    gather_facts: no
+    roles:
+      - prometheus
+
   - name: Web server
     hosts: web_servers
     gather_facts: no 
