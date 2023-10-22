@@ -2,6 +2,10 @@
   ansible.builtin.apt:
     name: mysql-server
 
+- name: Install exporter
+  ansible.builtin.apt:
+    name: prometheus-mysqld-exporter
+
 - name: Install python library
   ansible.builtin.apt:
     name: python3-pymysql
@@ -11,6 +15,12 @@
     name: mysql
     state: started
     enabled: true
+
+#- name: mysql exporter service
+#  ansible.builtin.service:
+#    name: prometheus-mysqld-exporter
+#    state: started
+#    enabled: true
 
 - name: Copy override to the remote host
   ansible.builtin.copy:
@@ -31,4 +41,9 @@
     priv: "{{ mysql_database }}.*:ALL"
     login_unix_socket: /var/run/mysqld/mysqld.sock
 
-
+- name: exporter template
+  ansible.builtin.template:
+    dest: /var/lib/prometheus/.my.cnf
+    src: my.cnf.j2
+  no_log: yes
+  notify: Restart MySQL exporter

@@ -11,9 +11,12 @@ scrape_configs:
     static_configs:
       - targets: ['localhost:9090']
 
-  - job_name: 'linux'
+{% for job in prometheus_jobs %}
+  - job_name: '{{job.name}}'
     static_configs:
       - targets:
-{% for host in groups['all'] %}
-        - {{host}}:9100
+{% for host in groups[job.target_group] %}
+        - {{host}}:{{job.target_port}}
 {% endfor %}
+{% endfor %}
+

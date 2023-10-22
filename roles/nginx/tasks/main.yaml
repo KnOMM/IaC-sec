@@ -2,6 +2,10 @@
   ansible.builtin.apt:
     name: nginx
 
+- name: Install nginx exporter
+  ansible.builtin.apt:
+    name: prometheus-nginx-exporter
+
 - name: Copy files to the remote machine
   ansible.builtin.template:
     src: default.j2

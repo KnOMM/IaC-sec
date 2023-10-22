@@ -12,24 +12,35 @@
     gather_facts: no 
     roles:
       - bind
+    tags: b
+
+  - name: connection between app and webserver
+    hosts: connection
+    gather_facts: no
+    roles:      
+      - agama
+      - uwsgi  
+
+  - name: Web server
+    hosts: web_servers
+    gather_facts: no 
+    roles:
+      - nginx
+    tags: n  
+
 
   - name: Database server
     hosts: db_servers
     gather_facts: no 
     roles:
       - mysql
+    tags: db
 
   - name: Prometheus metrics
     hosts: metrics
     gather_facts: no
     roles:
       - prometheus
+    tags: p
 
-  - name: Web server
-    hosts: web_servers
-    gather_facts: no 
-    roles:
-      - agama
-      - uwsgi
-      - nginx
-      
+    

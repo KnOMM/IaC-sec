@@ -2,9 +2,19 @@
   ansible.builtin.apt:
     name: bind9
 
+- name: Install bind exporter
+  ansible.builtin.apt:
+    name: prometheus-bind-exporter
+
 - name: bind9 service
   ansible.builtin.service:
     name: bind9
+    state: started
+    enabled: true
+
+- name: exporter service
+  ansible.builtin.service:
+    name: prometheus-bind-exporter  
     state: started
     enabled: true
 
@@ -32,5 +42,4 @@
     src: resolv.conf.j2
   loop: "{{groups['all']}}"
   delegate_to: "{{item}}"
-  
-    
+

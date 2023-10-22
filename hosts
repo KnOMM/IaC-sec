@@ -6,6 +6,11 @@ KnOMM-2
 
 [web_servers]
 KnOMM-1
+KnOMM-2
+
+[connection]
+KnOMM-1
+
 
 [dns_servers]
 KnOMM-2
