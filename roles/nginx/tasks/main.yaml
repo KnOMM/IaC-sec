@@ -17,3 +17,9 @@
     name: nginx
     state: started
     enabled: true
+
+- name: Nginx exporter
+  ansible.builtin.service:
+    name: prometheus-nginx-exporter
+    state: started
+    enabled: true

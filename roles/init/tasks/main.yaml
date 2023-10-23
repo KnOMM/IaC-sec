@@ -35,6 +35,11 @@
     name: prometheus-node-exporter
     state: started
     enabled: true
+
+- name: Install ca-certificates
+  ansible.builtin.apt:
+    name: ca-certificates=20230311ubuntu0.20.04.1
+
 #- name: Ping my hosts
 #  ansible.builtin.ping:
 
