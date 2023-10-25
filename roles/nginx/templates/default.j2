@@ -6,13 +6,19 @@ server {
 		uwsgi_pass localhost:5000;
 		include uwsgi_params;
 	}
+
+	{% if inventory_hostname not in groups['metrics'] %}
 	location /prometheus {
 		proxy_pass http://KnOMM-2:9090;	
 	}
+	{% endif %}
+
+	{% if inventory_hostname in groups['grafana'] %}
 	location /grafana {
 		proxy_set_header Host $http_host;
-		proxy_pass http://KnOMM-1:3000;
+		proxy_pass http://localhost:3000;
 	}
+	{% endif %}
 }
 
 server {

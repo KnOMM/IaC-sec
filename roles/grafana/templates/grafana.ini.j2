@@ -1,3 +1,12 @@
+[security]
+admin_user = admin1
+
+# default admin password, can be changed before first start of grafana, or in profile settings
+admin_password = admin1
+
+disable_initial_admin_creation = true
+admin_user = KnOMM
+admin_password = {{grafana_password}}
 [server]
 root_url = http://{{ansible_host}}:{{machine1|int +58}}/grafana/
 serve_from_sub_path = true

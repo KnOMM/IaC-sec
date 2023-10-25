@@ -17,14 +17,38 @@
   ansible.builtin.apt:
     name: grafana 
 
+- name: Grafana config
+  ansible.builtin.template:
+    dest: /etc/grafana/grafana.ini
+    src: grafana.ini.j2
+  notify: Restart Grafana
+
 - name: Grafana service
   ansible.builtin.service:
     name: grafana-server
     state: started
     enabled: true
 
-- name: Grafana config
+- name: Set datasource
   ansible.builtin.template:
-    dest: /etc/grafana/grafana.ini
-    src: grafana.ini.j2
+    dest: /etc/grafana/provisioning/datasources/prometheus.yaml
+    src: datasource.yaml.j2
+  notify: Restart Grafana
+
+- name: Set dashboards
+  ansible.builtin.template:
+    dest: /etc/grafana/provisioning/dashboards/prometheus.yaml
+    src: dashboard.yaml.j2
+  notify: Restart Grafana
+
+- name: create dir for json
+  ansible.builtin.file:
+    path: /var/lib/grafana/dashboards/
+    state: directory
+  notify: Restart Grafana
+
+- name: Upload JSON
+  ansible.builtin.copy:
+    dest: /var/lib/grafana/dashboards/main.json
+    src:  main.json
   notify: Restart Grafana

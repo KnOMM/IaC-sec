@@ -10,7 +10,9 @@
   ansible.builtin.template:
     src: default.j2
     dest: /etc/nginx/sites-enabled/default
-  notify: Restart Nginx
+  notify:
+    - Restart Nginx
+    - Restart Nginx-exporter
 
 - name: Nginx service
   ansible.builtin.service:
