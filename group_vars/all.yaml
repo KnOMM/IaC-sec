@@ -1,5 +1,5 @@
-machine1: 3422
-machine2: 12522
+machine1: 32822
+machine2: 37622
 
 startup_name: be.bop
 
@@ -32,6 +32,7 @@ prometheus_jobs:
 mysql_host: KnOMM-2 
 mysql_database: agama
 mysql_user: agama
+mysql_exporter_user: exporter
 mysql_password: !vault |
           $ANSIBLE_VAULT;1.1;AES256
           36376339313830376530626435666361623362353335326330333831393736373933616364383863
