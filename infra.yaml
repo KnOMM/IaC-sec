@@ -47,12 +47,20 @@
       - prometheus
     tags: p
 
-  - name: Grafana
+  - name: grafana
     hosts: grafana
     become: yes
     gather_facts: no
     roles:
       - grafana
     tags: g
+
+  - name: InfluxDB 
+    hosts: influxdb 
+    become: yes
+    gather_facts: no
+    roles:
+      - influxdb 
+    tags: i
 
     

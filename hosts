@@ -21,3 +21,6 @@ KnOMM-2
 
 [grafana]
 KnOMM-1
+
+[influxdb]
+KnOMM-1

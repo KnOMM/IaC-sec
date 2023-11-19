@@ -1,0 +1,35 @@
+- name: download package with check
+  ansible.builtin.get_url:
+    dest: /opt/influxdb_1.8.10_amd64.deb
+    url: https://dl.influxdata.com/influxdb/releases/influxdb_1.8.10_amd64.deb
+    checksum: sha256:b2ace09231575df7309a41cea6f9dc7ad716fe4389dc06ac04470a14bd411456
+
+- name: deb package
+  ansible.builtin.apt:
+    deb: /opt/influxdb_1.8.10_amd64.deb
+
+- name: add key to keyring file
+  ansible.builtin.apt_key:
+    url: https://repos.influxdata.com/influxdata-archive_compat.key
+    keyring: /etc/apt/keyrings/influxdb.gpg
+
+- name: add influx repo
+  ansible.builtin.apt_repository:
+    repo: deb [signed-by=/etc/apt/keyrings/influxdb.gpg] https://repos.influxdata.com/debian stable main
+
+- name: Install Telegraf
+  ansible.builtin.apt:
+    name: telegraf
+
+#- name: Telegraf configuration 
+#  ansible.builtin.template:
+#    src: telegraf.conf
+#    dest: /etc/telegraf/telegraf.conf
+#  notify: Restart Telegraf
+#
+#- name: Influxdb.conf
+#  ansible.builtin.template:
+#    src: influxdb.conf
+#    dest: /etc/influxdb/influxdb.conf
+#  notify: Restart Influxdb
+    
