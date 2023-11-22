@@ -1,0 +1,25 @@
+[meta]
+  dir = "/var/lib/influxdb/meta"
+[data]
+  # The directory where the TSM storage engine stores TSM files.
+  dir = "/var/lib/influxdb/data"
+  query-log-enabled = false
+
+  # The directory where the TSM storage engine stores WAL files.
+  wal-dir = "/var/lib/influxdb/wal"
+  series-id-set-cache-size = 100
+[coordinator]
+[retention]
+[shard-precreation]
+[monitor]
+[http]
+  log-enabled = false
+  write-tracing = false
+[logging]
+[subscriber]
+[[graphite]]
+[[collectd]]
+[[opentsdb]]
+[[udp]]
+[continuous_queries]
+[tls]

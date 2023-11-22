@@ -33,6 +33,8 @@
   ansible.builtin.template:
     dest: /etc/grafana/provisioning/datasources/prometheus.yaml
     src: datasource.yaml.j2
+    owner: grafana
+    group: grafana 
   notify: Restart Grafana
 
 - name: Set dashboards
@@ -51,4 +53,16 @@
   ansible.builtin.copy:
     dest: /var/lib/grafana/dashboards/main.json
     src:  main.json
+  notify: Restart Grafana
+
+- name: Upload JSON for influx
+  ansible.builtin.copy:
+    dest: /var/lib/grafana/dashboards/influxdb.json
+    src:  influxdb.json
+  notify: Restart Grafana
+
+- name: Upload JSON for Telegraf
+  ansible.builtin.copy:
+    dest: /var/lib/grafana/dashboards/syslog.json
+    src:  syslog.json
   notify: Restart Grafana

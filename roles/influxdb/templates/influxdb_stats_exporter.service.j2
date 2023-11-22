@@ -1,0 +1,10 @@
+[Unit]
+Description=InfluxDB Stats Exporter
+
+[Service]
+User=prometheus
+Group=prometheus
+ExecStart=/usr/local/bin/influxdb_stats_exporter
+
+[Install]
+WantedBy=default.target

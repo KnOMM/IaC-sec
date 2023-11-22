@@ -46,3 +46,19 @@
 #- name: Print message
 #  ansible.builtin.debug:
 #  msg: Hello world
+
+- name: Install rsyslog
+  ansible.builtin.apt:
+    name: rsyslog
+
+- name: Configuration for rsyslog
+  ansible.builtin.template:
+    src: 50-telegraf.conf.j2
+    dest: /etc/rsyslog.d/50-telegraf.conf
+  notify: Restart rsyslog
+
+- name: Start rsyslog
+  ansible.builtin.service:
+    name: rsyslog
+    state: started
+    enabled: true

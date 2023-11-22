@@ -1,5 +1,5 @@
-machine1: 33822
-machine2: 32522
+machine1: 39822
+machine2: 33222
 
 startup_name: be.bop
 
@@ -28,6 +28,12 @@ prometheus_jobs:
   - name: mysql
     target_port: 9104
     target_group: db_servers
+
+  - name: influxdb
+    target_port: 9424
+    target_group: influxdb
+
+influx_host: KnOMM-1 
 
 mysql_host: KnOMM-2 
 mysql_database: agama

@@ -11,7 +11,6 @@ KnOMM-2
 [connection]
 KnOMM-1
 
-
 [dns_servers]
 KnOMM-2
 
@@ -24,3 +23,6 @@ KnOMM-1
 
 [influxdb]
 KnOMM-1
+
+[pinger]
+KnOMM-2
