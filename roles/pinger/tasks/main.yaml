@@ -25,10 +25,18 @@
     dest: /etc/systemd/system/pinger.service
   notify:
     - Restart daemon service
+    - Start pinger
   
 - name: Copy config file
   ansible.builtin.template:
     src: pinger.conf.j2
     dest: /etc/pinger/pinger.conf
   notify:
+    - Restart daemon service
     - Start pinger
+
+- name: Start and Enable Pinger
+  service:
+    name: pinger
+    state: started
+    enabled: yes
