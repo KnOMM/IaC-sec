@@ -1,5 +1,5 @@
-machine1: 32622
-machine2: 38022
+machine1: 7522
+machine2: 15422
 
 startup_name: be.bop
 
@@ -33,8 +33,10 @@ prometheus_jobs:
     target_port: 9424
     target_group: influxdb
 
-influx_host: KnOMM-1 
+backup_server_ip: 192.168.42.132
+backup_server_ssh_key: ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIEu6pFFWyuRrl4WGFPQGElYN9txwTGm2wSntcpVAaN90
 
+influx_host: KnOMM-1 
 mysql_host: KnOMM-2 
 mysql_database: agama
 mysql_user: agama

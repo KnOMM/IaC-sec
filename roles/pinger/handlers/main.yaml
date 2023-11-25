@@ -7,5 +7,5 @@
 - name: Start pinger
   systemd:
     name: pinger
-    state: started
+    state: restarted
     enabled: yes

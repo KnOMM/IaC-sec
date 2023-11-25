@@ -36,10 +36,12 @@
 - ansible.builtin.template:
     dest: /var/lib/bind/db.{{startup_name}}
     src: zone.j2
+  notify: Restart Bind9
 
 - ansible.builtin.template:
     dest: /etc/resolv.conf
     src: resolv.conf.j2
   loop: "{{groups['all']}}"
   delegate_to: "{{item}}"
+  notify: Restart Bind9
 

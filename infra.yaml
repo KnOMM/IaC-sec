@@ -5,6 +5,7 @@
     gather_facts: yes 
     roles:
       - init
+    tags: in
 
   - name: DNS servers
     hosts: dns_servers
