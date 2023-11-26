@@ -48,14 +48,6 @@
       - prometheus
     tags: p
 
-  - name: Pinger service
-    hosts: pinger
-    become: yes
-    gather_facts: no
-    roles:
-      - pinger
-    tags: pi
-
   - name: grafana
     hosts: grafana
     become: yes
@@ -72,4 +64,10 @@
       - influxdb 
     tags: i
 
-    
+  - name: Pinger service
+    hosts: pinger
+    become: yes
+    gather_facts: no
+    roles:
+      - pinger
+    tags: pi   

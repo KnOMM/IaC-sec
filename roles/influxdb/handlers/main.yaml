@@ -11,7 +11,7 @@
 - name: Start influxdb_stats_exporter
   service:
     name: prometheus-influxdb-stats-exporter
-    state: started
+    state: restarted
     enabled: yes
 
 - name: Restart influxdb_stats_exporter daemon
