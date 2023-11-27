@@ -65,3 +65,17 @@
     state: started
     enabled: yes
 
+- name: backup dir at /home/backup/influxdb
+  ansible.builtin.file:
+    owner: backup
+    group: backup
+    path: /home/backup/influxdb
+    state: directory
+
+- name: Cron tab
+  ansible.builtin.template:
+    owner: root 
+    group: root
+    mode: 644
+    src: influxdb-backup.j2
+    dest: /etc/cron.d/influxdb-backup

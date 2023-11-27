@@ -12,10 +12,10 @@
   - Temporarily generated data that can be recreated.
 
 ### RPO (Recovery Point Objective)
-- Define the maximum allowable data loss: 24 hours for MySQL, 12 hours for InfluxDB.
+- Define the maximum allowable data loss: 24 hours for MySQL, 24 hours for InfluxDB.
 
 ### Versioning and Retention
-- Backup Versions: Retain the last 30 backups for MySQL, and the last 60 backups for InfluxDB.
+- Backup Versions: Retain the last 30 backups for MySQL, and the last 30 backups for InfluxDB.
 - Duration: Keep backups for 30 days.
 
 ### Usability Checks
@@ -28,8 +28,8 @@
 
 ### RTO (Recovery Time Objective)
 - Define the acceptable time to restore services after a failure:
-  - MySQL: 10 hours.
-  - InfluxDB: 10 hours.
+  - MySQL: 3 hours.
+  - InfluxDB: 3 hours.
 
 ## InfluxDB
 

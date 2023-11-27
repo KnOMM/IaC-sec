@@ -1,3 +1,10 @@
+-  name: backup dir at /home/backup/mysql
+   ansible.builtin.file:
+    owner: backup
+    group: backup
+    path: /home/backup/mysql
+    state: directory
+
 - name: exporter template
   ansible.builtin.template:
     mode: 400
@@ -6,6 +13,23 @@
     src: my.cnf.j2
   no_log: yes
  # notify: Restart MySQL exporter
+
+- name: backup template of my.cnf
+  ansible.builtin.template:
+    mode: 400
+    owner: backup
+    group: backup
+    dest: /home/backup/.my.cnf
+    src: my.cnf.backup.j2
+  no_log: yes
+
+- name: Cron tab
+  ansible.builtin.template:
+    owner: root 
+    group: root
+    mode: 644
+    src: mysql-backup.j2
+    dest: /etc/cron.d/mysql-backup
 
 - name: Install mysql
   ansible.builtin.apt:
@@ -41,6 +65,14 @@
     login_unix_socket: /var/run/mysqld/mysqld.sock
   notify: Restart MySQL exporter
 
+- name: MySQL backup user
+  community.mysql.mysql_user:
+    name: "{{ mysql_backup }}"
+    password: "{{ mysql_password }}"
+    host: "%"
+    priv: "{{ mysql_database }}.*:LOCK TABLES,SELECT"
+    login_unix_socket: /var/run/mysqld/mysqld.sock
+
 
 #- name: Install exporter
 #  ansible.builtin.apt:
@@ -64,5 +96,4 @@
   loop:
     - mysql
     - prometheus-mysqld-exporter
-
 

@@ -72,3 +72,15 @@
     dest: /home/backup/.ssh/known_hosts
     owner: backup
     group: backup
+
+- name: backup dir at /home/backup/restore
+  ansible.builtin.file:
+    owner: backup
+    group: backup
+    path: /home/backup/restore
+    state: directory
+
+- name: Install duplicity
+  ansible.builtin.apt:
+    name: duplicity=0.8.11.1612-1  
+    state: present

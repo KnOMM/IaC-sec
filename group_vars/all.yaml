@@ -1,5 +1,5 @@
-machine1: 34522
-machine2: 40122
+machine1: 6822
+machine2: 18522
 
 startup_name: be.bop
 
@@ -33,6 +33,7 @@ prometheus_jobs:
     target_port: 9424
     target_group: influxdb
 
+mysql_backup: backup
 backup_server_ip: 192.168.42.132
 backup_server_ssh_key: ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIEu6pFFWyuRrl4WGFPQGElYN9txwTGm2wSntcpVAaN90
 
