@@ -3,6 +3,7 @@ KnOMM-2 ansible_host=193.40.156.67 ansible_port="{{ machine2 }}" ansible_user=ub
 
 [db_servers]
 KnOMM-2
+KnOMM-1
 
 [web_servers]
 KnOMM-1

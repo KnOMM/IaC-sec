@@ -1,5 +1,5 @@
-machine1: 6822
-machine2: 18522
+machine1: 27122
+machine2: 35822
 
 startup_name: be.bop
 
@@ -37,8 +37,11 @@ mysql_backup: backup
 backup_server_ip: 192.168.42.132
 backup_server_ssh_key: ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIEu6pFFWyuRrl4WGFPQGElYN9txwTGm2wSntcpVAaN90
 
+mysql_replication_user: replication
+
 influx_host: KnOMM-1 
 mysql_host: KnOMM-2 
+
 mysql_database: agama
 mysql_user: agama
 mysql_exporter_user: exporter
@@ -57,3 +60,15 @@ grafana_password: !vault |
           32623932376331636563326435636163613231383362373963353439353736313637333432666332
           3132613064643831380a316363396334343637343731633164613361663234643533303137353535
           3761
+
+mysql_replication_password: !vault |
+          $ANSIBLE_VAULT;1.1;AES256
+          36376339313830376530626435666361623362353335326330333831393736373933616364383863
+          6535353837376333303234663038653535626261346162340a636537376339626135636261613662
+          39663830303034633339303931373131646531343139363938666465653463303037356538633863
+          6662393233303566320a663566646635663537633934376164336333333637353364366132656434
+          3364
+
+
+node_id: "{{ (ansible_port / 100) | int }}"
+# node_id: "{{ inventory_hostname.split('-'[-1]) | int}}"

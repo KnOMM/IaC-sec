@@ -1,10 +1,10 @@
--  name: backup dir at /home/backup/mysql
-   ansible.builtin.file:
+- name: backup dir at /home/backup/mysql
+  ansible.builtin.file:
     owner: backup
     group: backup
     path: /home/backup/mysql
     state: directory
-
+  
 - name: exporter template
   ansible.builtin.template:
     mode: 400
@@ -12,7 +12,14 @@
     dest: /var/lib/prometheus/.my.cnf
     src: my.cnf.j2
   no_log: yes
- # notify: Restart MySQL exporter
+  notify: Restart MySQL exporter
+
+- name: Exporter template args conf
+  ansible.builtin.template:
+    dest: /etc/default/prometheus-mysqld-exporter
+    src: prometheus-mysqld-exporter.j2
+  no_log: yes
+  notify: Restart MySQL exporter
 
 - name: backup template of my.cnf
   ansible.builtin.template:
@@ -39,8 +46,8 @@
       - prometheus-mysqld-exporter
 
 - name: Copy override to the remote host
-  ansible.builtin.copy:
-    src: override.cnf
+  ansible.builtin.template:
+    src: override.cnf.j2
     dest: /etc/mysql/mysql.conf.d/override.cnf
   notify: Restart MySQL
 
@@ -48,6 +55,9 @@
   community.mysql.mysql_db:
     name: "{{ mysql_database }}"
     login_unix_socket: /var/run/mysqld/mysqld.sock
+  notify:
+    - Reset MySQL source
+    - Reset MySQL replica
 
 - name: MySQL user
   community.mysql.mysql_user:
@@ -96,4 +106,22 @@
   loop:
     - mysql
     - prometheus-mysqld-exporter
+
+- name: MySQL replica user
+  community.mysql.mysql_user:
+    name: "{{ mysql_replication_user }}"
+    password: "{{ mysql_replication_password }}"
+    login_unix_socket: /var/run/mysqld/mysqld.sock
+    host: "%"
+    priv: "*.*:REPLICATION SLAVE"
+
+- name: Dynamic read-only allocation
+  community.mysql.mysql_variables:
+    variable: read_only
+    value: "{{ 'OFF' if inventory_hostname == mysql_host else 'ON' }}"
+    mode: persist
+    login_unix_socket: /var/run/mysqld/mysqld.sock
+  notify:
+    - Reset MySQL source
+    - Reset MySQL replica
 
