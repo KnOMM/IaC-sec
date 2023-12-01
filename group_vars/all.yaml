@@ -1,5 +1,5 @@
-machine1: 27122
-machine2: 35822
+machine1: 2522
+machine2: 16122
 
 startup_name: be.bop
 
@@ -41,6 +41,8 @@ mysql_replication_user: replication
 
 influx_host: KnOMM-1 
 mysql_host: KnOMM-2 
+
+mysql_backup_host: "{{ groups['db_servers'] | reject('eq', mysql_host) | first | default(mysql_host) }}"
 
 mysql_database: agama
 mysql_user: agama

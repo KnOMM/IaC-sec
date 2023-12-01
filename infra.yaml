@@ -22,6 +22,7 @@
     roles:      
       - agama
       - uwsgi  
+    tags: c
 
   - name: Web server
     hosts: web_servers
