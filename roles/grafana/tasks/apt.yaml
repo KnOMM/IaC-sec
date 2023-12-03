@@ -1,0 +1,74 @@
+- name: create dir for key
+  ansible.builtin.file:
+    path: /etc/apt/keyrings/
+    state: directory
+
+- name: add key to keyring file
+  ansible.builtin.apt_key:
+    url: https://apt.grafana.com/gpg.key
+    keyring: /etc/apt/keyrings/grafana.gpg
+
+- name: add grafana repo
+  ansible.builtin.apt_repository:
+    repo: "deb [signed-by=/etc/apt/keyrings/grafana.gpg] https://apt.grafana.com stable main"
+    state: present
+
+- name: Install Grafana
+  ansible.builtin.apt:
+    name: grafana 
+
+- name: Grafana config
+  ansible.builtin.template:
+    dest: /etc/grafana/grafana.ini
+    src: grafana.ini.j2
+  notify: Restart Grafana
+
+- name: Grafana service
+  ansible.builtin.service:
+    name: grafana-server
+    state: started
+    enabled: true
+
+- name: Set datasource
+  ansible.builtin.template:
+    dest: /etc/grafana/provisioning/datasources/prometheus.yaml
+    src: datasource.yaml.j2
+    owner: grafana
+    group: grafana 
+  notify: Restart Grafana
+
+- name: Set dashboards
+  ansible.builtin.template:
+    dest: /etc/grafana/provisioning/dashboards/prometheus.yaml
+    src: dashboard.yaml.j2
+  notify: Restart Grafana
+
+- name: create dir for json
+  ansible.builtin.file:
+    path: /var/lib/grafana/dashboards/
+    state: directory
+  notify: Restart Grafana
+
+- name: Upload JSON
+  ansible.builtin.copy:
+    dest: /var/lib/grafana/dashboards/main.json
+    src:  main.json
+  notify: Restart Grafana
+
+- name: Upload JSON for influx
+  ansible.builtin.copy:
+    dest: /var/lib/grafana/dashboards/influxdb.json
+    src:  influxdb.json
+  notify: Restart Grafana
+
+- name: Upload JSON for Telegraf
+  ansible.builtin.copy:
+    dest: /var/lib/grafana/dashboards/syslog.json
+    src:  syslog.json
+  notify: Restart Grafana
+
+- name: Upload JSON for MySQL
+  ansible.builtin.copy:
+    dest: /var/lib/grafana/dashboards/mysql.json
+    src:  mysql.json
+  notify: Restart Grafana

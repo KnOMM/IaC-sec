@@ -1,74 +1,47 @@
-- name: create dir for key
+- name: Grafana directory
   ansible.builtin.file:
-    path: /etc/apt/keyrings/
+    name: "/opt/grafana/provisioning/{{ item }}"
     state: directory
+  loop:
+    - dashboards
+    - datasources
 
-- name: add key to keyring file
-  ansible.builtin.apt_key:
-    url: https://apt.grafana.com/gpg.key
-    keyring: /etc/apt/keyrings/grafana.gpg
-
-- name: add grafana repo
-  ansible.builtin.apt_repository:
-    repo: "deb [signed-by=/etc/apt/keyrings/grafana.gpg] https://apt.grafana.com stable main"
-    state: present
-
-- name: Install Grafana
-  ansible.builtin.apt:
-    name: grafana 
-
-- name: Grafana config
+- name: Grafana configuration
   ansible.builtin.template:
-    dest: /etc/grafana/grafana.ini
     src: grafana.ini.j2
+    dest: /opt/grafana/grafana.ini
+  no_log: true
   notify: Restart Grafana
 
-- name: Grafana service
-  ansible.builtin.service:
-    name: grafana-server
-    state: started
-    enabled: true
-
-- name: Set datasource
+- name: Grafana dashboard
   ansible.builtin.template:
-    dest: /etc/grafana/provisioning/datasources/prometheus.yaml
+    src: dashboard.yaml.j2
+    dest: /opt/grafana/provisioning/dashboards/dashboard.yaml
+  notify: Restart Grafana
+
+- name: Grafana datasource
+  ansible.builtin.template:
     src: datasource.yaml.j2
+    dest: /opt/grafana/provisioning/datasources/datasource.yaml
     owner: grafana
     group: grafana 
   notify: Restart Grafana
 
-- name: Set dashboards
-  ansible.builtin.template:
-    dest: /etc/grafana/provisioning/dashboards/prometheus.yaml
-    src: dashboard.yaml.j2
-  notify: Restart Grafana
-
-- name: create dir for json
-  ansible.builtin.file:
-    path: /var/lib/grafana/dashboards/
-    state: directory
-  notify: Restart Grafana
-
-- name: Upload JSON
+- name: Grafana provisioning
   ansible.builtin.copy:
-    dest: /var/lib/grafana/dashboards/main.json
-    src:  main.json
+    dest: "/opt/grafana/provisioning/dashboards/{{item}}"
+    src: "{{item}}"
+  loop:
+    - influxdb.json
+    - main.json
+    - mysql.json
+    - syslog.json
   notify: Restart Grafana
 
-- name: Upload JSON for influx
-  ansible.builtin.copy:
-    dest: /var/lib/grafana/dashboards/influxdb.json
-    src:  influxdb.json
-  notify: Restart Grafana
-
-- name: Upload JSON for Telegraf
-  ansible.builtin.copy:
-    dest: /var/lib/grafana/dashboards/syslog.json
-    src:  syslog.json
-  notify: Restart Grafana
-
-- name: Upload JSON for MySQL
-  ansible.builtin.copy:
-    dest: /var/lib/grafana/dashboards/mysql.json
-    src:  mysql.json
-  notify: Restart Grafana
+- name: Grafana Docker container
+  community.docker.docker_container: 
+    name: grafana
+    image: grafana/grafana
+    state: started
+    volumes: /opt/grafana:/etc/grafana
+    published_ports: "{{ grafana_port }}:3000"

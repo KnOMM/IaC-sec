@@ -1,27 +1,29 @@
-
-- name: Add the user 'agama' with the home directory
-  ansible.builtin.user:
-    name: agama
-    state: present
-    createhome: yes
-
-- name: create a directory if it does not exist
-  ansible.builtin.file:
-    path: /opt/agama
-    owner: agama
+- name: Create Agama directory
+  file:
+    name: /opt/agama
     state: directory
 
-- name: Install python packages
-  ansible.builtin.apt:
-    name: python3-flask
+- name: Download AGAMA application and Dockerfile
+  get_url:
+    url: https://raw.githubusercontent.com/hudolejev/agama/master/{{ item }}
+    dest: /opt/agama
+  loop:
+    - agama.py
+    - Dockerfile
 
-- name: Install python packages
-  ansible.builtin.apt:
-    name:
-        - python3-flask-sqlalchemy
-        - python3-pymysql
+- name: Build Docker image for Agama
+  docker_image:
+    name: agama
+    source: build
+    build:
+      path: /opt/agama
 
-- name: Download the app agama.py
-  ansible.builtin.get_url:
-    url: https://raw.githubusercontent.com/hudolejev/agama/master/agama.py
-    dest: /opt/agama/agama.py  
+- name: Start Docker container for Agama
+  docker_container:
+    name: agama
+    image: agama
+    env:
+      AGAMA_DATABASE_URI: "mysql+pymysql://{{ mysql_user }}:{{ mysql_password }}@{{ mysql_host }}/{{ mysql_database }}"
+    ports:
+      - "{{agama_port}}:8000"
+  no_log: true  

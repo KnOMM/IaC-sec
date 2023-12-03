@@ -1,5 +1,5 @@
-machine1: 2522
-machine2: 16122
+machine1: 6022
+machine2: 11722
 
 startup_name: be.bop
 
@@ -38,9 +38,11 @@ backup_server_ip: 192.168.42.132
 backup_server_ssh_key: ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIEu6pFFWyuRrl4WGFPQGElYN9txwTGm2wSntcpVAaN90
 
 mysql_replication_user: replication
+agama_port: 8001
+grafana_port: 3001
 
 influx_host: KnOMM-1 
-mysql_host: KnOMM-2 
+mysql_host: KnOMM-2
 
 mysql_backup_host: "{{ groups['db_servers'] | reject('eq', mysql_host) | first | default(mysql_host) }}"
 
