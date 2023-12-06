@@ -7,6 +7,7 @@
   ansible.builtin.apt_key:
     url: https://apt.grafana.com/gpg.key
     keyring: /etc/apt/keyrings/grafana.gpg
+  no_log: true
 
 - name: add grafana repo
   ansible.builtin.apt_repository:

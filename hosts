@@ -11,6 +11,7 @@ KnOMM-2
 
 [connection]
 KnOMM-1
+KnOMM-2
 
 [dns_servers]
 KnOMM-2
@@ -26,4 +27,12 @@ KnOMM-1
 KnOMM-1
 
 [pinger]
+KnOMM-2
+
+[keepalived]
+KnOMM-1
+KnOMM-2
+
+[haproxy]
+KnOMM-1
 KnOMM-2

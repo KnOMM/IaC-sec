@@ -23,8 +23,6 @@
   ansible.builtin.template:
     src: datasource.yaml.j2
     dest: /opt/grafana/provisioning/datasources/datasource.yaml
-    owner: grafana
-    group: grafana 
   notify: Restart Grafana
 
 - name: Grafana provisioning

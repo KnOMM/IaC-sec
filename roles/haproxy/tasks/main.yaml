@@ -1,0 +1,57 @@
+- name: Install haproxy
+  apt:
+    name: haproxy
+
+- name: Copy haproxy.cf
+  template:
+    dest: /etc/haproxy/haproxy.cfg
+    src: haproxy.cfg.j2
+  notify: 
+    - Restart Haproxy
+
+- name: Haproxy service
+  service:
+    name: haproxy
+    state: started
+    enabled: true
+
+- name: Args for exporter
+  template:
+    dest: /etc/default/prometheus-haproxy-exporter
+    src: prometheus-haproxy-exporter.j2
+  notify: 
+    - Restart prometheus-haproxy-exporter
+
+- name: Haproxy exporter
+  apt:
+    name: prometheus-haproxy-exporter
+
+- name: prometheus-haproxy-exporter service
+  service:
+    name: prometheus-haproxy-exporter
+    state: started
+    enabled: true
+
+# - name: Copy script
+#   template:
+#     dest: /home/keepalived_script
+#     src: keepalived_script.j2
+#   notify: 
+#     - Restart Keepalived
+
+# - name: Install keepalived
+#   apt:
+#     name: keepalived
+
+# - name: Copy keepalived.cfg
+#   template:
+#     dest: /etc/keepalived/keepalived.conf
+#     src: keepalived.conf.j2
+#   notify:
+#     - Restart Keepalived
+
+# - name: Keepalived service
+#   service:
+#     name: keepalived
+#     state: started
+#     enabled: true

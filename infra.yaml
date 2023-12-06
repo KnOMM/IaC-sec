@@ -4,7 +4,9 @@
     become: yes
     gather_facts: yes 
     roles:
+      - docker      
       - init
+
     tags: in
 
   - name: DNS servers
@@ -19,7 +21,7 @@
     hosts: connection
     become: yes
     gather_facts: no
-    roles:      
+    roles:
       - agama
       # - uwsgi  
     tags: c
@@ -54,7 +56,7 @@
     become: yes
     gather_facts: no
     roles:
-      - docker
+      # - docker
       - grafana
     tags: g
 
@@ -73,3 +75,19 @@
     roles:
       - pinger
     tags: pi   
+  
+  - name: Keepalived service
+    hosts: keepalived
+    become: yes
+    gather_facts: no
+    roles:
+      - keepalived
+    tags: ka   
+
+  - name: Keepalived service
+    hosts: haproxy
+    become: yes
+    gather_facts: no
+    roles:
+      - haproxy
+    tags: ha  

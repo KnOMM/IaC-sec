@@ -1,5 +1,5 @@
-machine1: 6022
-machine2: 11722
+machine1: 33122
+machine2: 30522
 
 startup_name: be.bop
 
@@ -11,6 +11,7 @@ dnsips:
 alips:
   - 192.168.42.0/23
   - 127.0.0.0/8
+  - 172.17.0.0/16
 
 prometheus_jobs:
   - name: linux
@@ -33,6 +34,14 @@ prometheus_jobs:
     target_port: 9424
     target_group: influxdb
 
+  - name: haproxy
+    target_port: 9101
+    target_group: haproxy
+
+  - name: keepalived
+    target_port: 9165
+    target_group: keepalived
+
 mysql_backup: backup
 backup_server_ip: 192.168.42.132
 backup_server_ssh_key: ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIEu6pFFWyuRrl4WGFPQGElYN9txwTGm2wSntcpVAaN90
@@ -41,8 +50,11 @@ mysql_replication_user: replication
 agama_port: 8001
 grafana_port: 3001
 
+agama_amount: 2
+
 influx_host: KnOMM-1 
 mysql_host: KnOMM-2
+keepalived_master: KnOMM-1
 
 mysql_backup_host: "{{ groups['db_servers'] | reject('eq', mysql_host) | first | default(mysql_host) }}"
 
@@ -73,6 +85,13 @@ mysql_replication_password: !vault |
           6662393233303566320a663566646635663537633934376164336333333637353364366132656434
           3364
 
+keepalived_pass: !vault |
+          $ANSIBLE_VAULT;1.1;AES256
+          36376339313830376530626435666361623362353335326330333831393736373933616364383863
+          6535353837376333303234663038653535626261346162340a636537376339626135636261613662
+          39663830303034633339303931373131646531343139363938666465653463303037356538633863
+          6662393233303566320a663566646635663537633934376164336333333637353364366132656434
+          3364
 
 node_id: "{{ (ansible_port / 100) | int }}"
 # node_id: "{{ inventory_hostname.split('-'[-1]) | int}}"

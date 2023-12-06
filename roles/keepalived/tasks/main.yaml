@@ -1,0 +1,56 @@
+- name: Add the user 'keepalived_script'
+  ansible.builtin.user:
+    name: keepalived_script
+    state: present
+
+- name: Copy script
+  template:
+    dest: /home/keepalived_script
+    src: keepalived_script.j2
+    mode: '0755'
+    owner: keepalived_script
+    group: keepalived_script
+  notify: 
+    - Restart Keepalived
+
+- name: Install keepalived
+  apt:
+    name: keepalived
+
+- name: Copy keepalived.cfg
+  template:
+    dest: /etc/keepalived/keepalived.conf
+    src: keepalived.conf.j2
+  notify:
+    - Restart Keepalived
+
+- name: Keepalived service
+  service:
+    name: keepalived
+    state: started
+    enabled: true
+
+- name: Download keepalived-exporter tar
+  get_url:
+    url: http://backup/keepalived-exporter-1.2.0.linux-amd64.tar.gz
+    dest: /opt/
+
+- name: Extract keepalived-exporter tar
+  unarchive:
+    src: /opt/keepalived-exporter-1.2.0.linux-amd64.tar.gz
+    dest: /usr/local/bin/
+    remote_src: yes
+
+- name: Create systemd unit for keepalived-exporter
+  template:
+    src: keepalived-exporter.service.j2
+    dest: /etc/systemd/system/keepalived-exporter.service
+  notify: 
+    - Restart daemon service
+    - Restart Keepalived
+ 
+- name: Start and enable keepalived-exporter service
+  systemd:
+    name: keepalived-exporter
+    state: started
+    enabled: yes

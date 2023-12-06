@@ -7,11 +7,14 @@ server {
 		proxy_pass http://localhost:{{ agama_port }};
 	}
 
-	{% if inventory_hostname not in groups['metrics'] %}
-	location /prometheus {
-		proxy_pass http://KnOMM-2:9090;	
-	}
-	{% endif %}
+	{% if inventory_hostname in groups['metrics'] %}
+        #Reverse proxy for Prometheus
+
+    location /prometheus {
+        proxy_pass http://localhost:9090;
+    }
+    {% endif %}
+
 
 	{% if inventory_hostname in groups['grafana'] %}
 	location /grafana {

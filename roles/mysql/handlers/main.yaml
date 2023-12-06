@@ -21,9 +21,9 @@
   community.mysql.mysql_replication:
     mode: "{{ item }}"
     login_unix_socket: /var/run/mysqld/mysqld.sock
-    master_host: "{{ mysql_host }}"
-    master_user: "{{ mysql_replication_user }}"
-    master_password: "{{ mysql_replication_password }}"
+    primary_host: "{{ mysql_host }}"
+    primary_user: "{{ mysql_replication_user }}"
+    primary_password: "{{ mysql_replication_password }}"
   loop:
     - stopreplica
     - changeprimary

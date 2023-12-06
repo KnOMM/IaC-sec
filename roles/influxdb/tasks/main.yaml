@@ -1,3 +1,8 @@
+- name: create dir for key
+  ansible.builtin.file:
+    path: /etc/apt/keyrings/
+    state: directory
+
 - name: download package with check
   ansible.builtin.get_url:
     dest: /opt/influxdb_1.8.10_amd64.deb

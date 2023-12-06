@@ -12,14 +12,18 @@
     dest: /var/lib/prometheus/.my.cnf
     src: my.cnf.j2
   no_log: yes
-  notify: Restart MySQL exporter
+  notify:
+    - Restart MySQL exporter
+    - Restart MySQL
 
 - name: Exporter template args conf
   ansible.builtin.template:
     dest: /etc/default/prometheus-mysqld-exporter
     src: prometheus-mysqld-exporter.j2
   no_log: yes
-  notify: Restart MySQL exporter
+  notify:
+    - Restart MySQL exporter
+    - Restart MySQL
 
 - name: backup template of my.cnf
   ansible.builtin.template:
@@ -49,7 +53,9 @@
   ansible.builtin.template:
     src: override.cnf.j2
     dest: /etc/mysql/mysql.conf.d/override.cnf
-  notify: Restart MySQL
+  notify: 
+    - Restart MySQL exporter
+    - Restart MySQL
 
 - name: MySQL database
   community.mysql.mysql_db:
@@ -73,7 +79,6 @@
     password: "{{ mysql_password }}"
     priv: '*.*:PROCESS,REPLICATION CLIENT,SELECT'
     login_unix_socket: /var/run/mysqld/mysqld.sock
-  notify: Restart MySQL exporter
 
 - name: MySQL backup user
   community.mysql.mysql_user:
