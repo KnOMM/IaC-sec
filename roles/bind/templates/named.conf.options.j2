@@ -1,3 +1,14 @@
+key "transfer.key" {
+	algorithm hmac-sha256;
+	secret "{{ dns_transfer_key }}";
+};
+
+key "nsupdate.key" {
+	algorithm hmac-sha256;
+	secret "{{ dns_update_key }}";
+};
+
+
 acl corpnets {
   {%- for ip in alips %}
     {{ip}};

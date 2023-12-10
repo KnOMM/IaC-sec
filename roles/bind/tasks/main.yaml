@@ -1,6 +1,8 @@
 - name: Install DNS server
   ansible.builtin.apt:
-    name: bind9
+    name: 
+      - bind9
+      - python3-dnspython
 
 - name: Install bind exporter
   ansible.builtin.apt:
@@ -36,7 +38,17 @@
 - ansible.builtin.template:
     dest: /var/lib/bind/db.{{startup_name}}
     src: zone.j2
+    force: no
   notify: Restart Bind9
+  when: inventory_hostname in groups['dns_primary']
+
+- ansible.builtin.template:
+    dest: /var/lib/bind/db.rev
+    src: zone.rev.j2
+    force: no
+  notify: Restart Bind9
+  # rndc reload
+  when: inventory_hostname in groups['dns_primary']
 
 - ansible.builtin.template:
     dest: /etc/resolv.conf
@@ -45,3 +57,29 @@
   delegate_to: "{{item}}"
   notify: Restart Bind9
 
+- name: Add an A record for backup
+  nsupdate:
+    key_algorithm: "hmac-sha256"
+    key_name: "nsupdate.key"
+    key_secret: "{{ dns_update_key }}"
+    server: "{{ hostvars[groups['dns_primary'][0]]['ansible_default_ipv4']['address'] }}"
+    zone: "{{ startup_name }}."
+    record: "backup.{{ startup_name }}."
+    value: "{{ backup_server_ip }}"
+    type: "A"
+  when: inventory_hostname in groups['dns_primary'][0]
+  notify: Restart Bind9
+
+- name: Add an CNAME record for backup
+  nsupdate:
+    key_algorithm: "hmac-sha256"
+    key_name: "nsupdate.key"
+    key_secret: "{{ dns_update_key }}"
+    server: "{{ hostvars[groups['dns_primary'][0]]['ansible_default_ipv4']['address'] }}"
+    zone: "{{ startup_name }}."
+    record: "{{ item['cname'] }}.{{ startup_name }}."
+    value: "{{ item['value'] }}.{{ startup_name }}."
+    type: "CNAME"
+  loop: "{{ dns_cnames }}"
+  when: inventory_hostname in groups['dns_primary'][0]
+  notify: Restart Bind9

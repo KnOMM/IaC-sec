@@ -26,9 +26,9 @@ defaults
 
 listen agama
     bind *:88
-{% for vm in groups['web_servers'] %}
+{% for vm in groups['haproxy'] %}
 {% for i in range(agama_amount) %}
-  server {{ vm }}_{{ i + 1 }} {{ vm }}:{{ agama_port + i}} check 
+    server {{ vm }}_{{ i + 1 }} {{ vm }}:{{ agama_port + i}} check 
 {% endfor %}
 {% endfor %}
 

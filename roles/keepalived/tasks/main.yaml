@@ -2,10 +2,12 @@
   ansible.builtin.user:
     name: keepalived_script
     state: present
+    createhome: true
+    home: "/home/keepalived_script"
 
 - name: Copy script
   template:
-    dest: /home/keepalived_script
+    dest: /home/keepalived_script/keepalived_script
     src: keepalived_script.j2
     mode: '0755'
     owner: keepalived_script

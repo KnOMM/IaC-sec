@@ -3,3 +3,6 @@
     name: bind9
     state: restarted
 
+- name: rndc reload
+  command: rndc reload
+

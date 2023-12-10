@@ -23,8 +23,25 @@
     name: agama-{{ item|int +1}}
     image: agama
     env:
-      AGAMA_DATABASE_URI: "mysql+pymysql://{{ mysql_user }}:{{ mysql_password }}@{{ mysql_host }}/{{ mysql_database }}"
+      AGAMA_DATABASE_URI: "mysql+pymysql://{{ mysql_user }}:{{ mysql_password }}@mysql-2/{{ mysql_database }}"
     ports:
       - "{{agama_port + item|int}}:8000"
+    state: started
   no_log: true  
   loop: "{{ range(agama_amount) | list }}"
+
+# - name: Get information about all Agama containers
+#   docker_container_info:
+#     name: "agama-*"
+#   register: agama_containers_info
+
+# - name: Extract container names and count from the results
+#   set_fact:
+#     agama_container_names: "{{ agama_containers_info.containers | map(attribute='Name') | list }}"
+#     agama_container_count: "{{ agama_containers_info.containers | default([]) | length }}"
+
+
+
+# - name: Print Agama container names to console
+#   debug:
+#     var: agama_container_names

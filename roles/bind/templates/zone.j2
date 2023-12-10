@@ -14,6 +14,3 @@ $TTL	604800
 {%- for zone in groups['all'] %}
 {{zone}} IN A {{ hostvars[zone]['ansible_facts']['default_ipv4']['address'] }} 
 {% endfor %} 
-{% if backup_server_ip %}
-backup IN A {{backup_server_ip}}
-{% endif %}

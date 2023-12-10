@@ -7,7 +7,7 @@ datasources:
    access: proxy
    orgId: 1
    uid: aadf164c-8b6d-484c-854b-75d729fdc09a
-   url: http://KnOMM-2:9090/prometheus
+   url: http://prometheus:9090/prometheus
    version: 1
    editable: false
 
@@ -15,7 +15,7 @@ datasources:
    type: influxdb
    access: proxy
    uid: e4a40cd2-b759-4cc6-81b1-a2ad1b40e0c0
-   url: http://{{influx_host}}:8086
+   url: http://influxdb:8086
    database: latency
    editable: false
 
@@ -24,6 +24,6 @@ datasources:
    access: proxy
 #   orgId: 1
    uid: PDCDB4A7A00C1AF06
-   url: http://{{influx_host}}:8086
+   url: http://influxdb:8086
    database: telegraf
    editable: false
