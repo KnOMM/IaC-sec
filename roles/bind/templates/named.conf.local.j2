@@ -39,11 +39,3 @@ zone "168.192.in-addr.arpa" {
 {% endif %}
   file "db.rev";
 };
-
-{% if inventory_hostname in groups['dns_secondary'] %}
-{% for primary in groups['dns_primary'] %}
-server {{ hostvars[primary]['ansible_default_ipv4']['address'] }} {
-  keys { transfer.key; };
-};
-{% endfor %}
-{% endif %}
