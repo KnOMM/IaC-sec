@@ -18,7 +18,7 @@
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
-  "id": 3,
+  "id": 2,
   "links": [],
   "liveNow": false,
   "panels": [
@@ -324,7 +324,7 @@
           "calcs": [
             "last"
           ],
-          "fields": "/^\\{__name__=\"haproxy_up\", instance=\"KnOMM\\-2:9101\", job=\"haproxy\"\\}$/",
+          "fields": "/^\\{__name__=\"haproxy_up\", instance=\"lb\\-2:9101\", job=\"haproxy\"\\}$/",
           "values": false
         },
         "text": {},
@@ -419,12 +419,16 @@
             "type": "prometheus",
             "uid": "aadf164c-8b6d-484c-854b-75d729fdc09a"
           },
-          "editorMode": "code",
-          "expr": "nginx_up{instance=\"KnOMM-1:9113\"}",
+          "disableTextWrap": false,
+          "editorMode": "builder",
+          "expr": "nginx_up{instance=\"www-1:9113\"}",
+          "fullMetaSearch": false,
+          "includeNullMetadata": true,
           "instant": false,
           "legendFormat": "__auto",
           "range": true,
-          "refId": "A"
+          "refId": "A",
+          "useBackend": false
         }
       ],
       "title": "Nginx KnOMM-1",
@@ -501,7 +505,7 @@
             "uid": "aadf164c-8b6d-484c-854b-75d729fdc09a"
           },
           "editorMode": "code",
-          "expr": "nginx_up{instance=\"KnOMM-2:9113\"}",
+          "expr": "nginx_up{instance=\"www-2:9113\"}",
           "instant": false,
           "legendFormat": "__auto",
           "range": true,
@@ -730,7 +734,7 @@
           "calcs": [
             "lastNotNull"
           ],
-          "fields": "/^\\{__name__=\"mysql_up\", instance=\"KnOMM\\-1:9104\", job=\"mysql\"\\}$/",
+          "fields": "/^\\{__name__=\"mysql_up\", instance=\"mysql\\-1:9104\", job=\"mysql\"\\}$/",
           "values": false
         },
         "textMode": "auto",
@@ -811,7 +815,7 @@
           "calcs": [
             "lastNotNull"
           ],
-          "fields": "/^\\{__name__=\"mysql_up\", instance=\"KnOMM\\-2:9104\", job=\"mysql\"\\}$/",
+          "fields": "/^\\{__name__=\"mysql_up\", instance=\"mysql\\-2:9104\", job=\"mysql\"\\}$/",
           "values": false
         },
         "textMode": "auto",
@@ -894,7 +898,7 @@
           "calcs": [
             "last"
           ],
-          "fields": "/^\\{__name__=\"haproxy_up\", instance=\"KnOMM\\-1:9101\", job=\"haproxy\"\\}$/",
+          "fields": "/^\\{__name__=\"haproxy_up\", instance=\"lb\\-1:9101\", job=\"haproxy\"\\}$/",
           "values": false
         },
         "text": {},
@@ -1462,15 +1466,15 @@
       "type": "timeseries"
     }
   ],
-  "refresh": false,
+  "refresh": "",
   "schemaVersion": 38,
   "tags": [],
   "templating": {
     "list": []
   },
   "time": {
-    "from": "2023-12-08T17:23:24.401Z",
-    "to": "2023-12-08T19:23:24.401Z"
+    "from": "now-5m",
+    "to": "now"
   },
   "timepicker": {},
   "timezone": "",

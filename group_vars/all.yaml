@@ -1,5 +1,6 @@
-machine1: 45422
-machine2: 30322
+machine1: 28722
+machine2: 42022
+machine3: 37322
 
 startup_name: be.bop
 
@@ -16,31 +17,48 @@ alips:
 prometheus_jobs:
   - name: linux
     target_port: 9100
-    target_group: all
+    target_group: 
+      - KnOMM-1
+      - KnOMM-2
+      - KnOMM-3
+
 
   - name: bind9
     target_port: 9119
-    target_group: dns_servers
+    target_group: 
+      - ns-1
+      - ns-2
+      - KnOMM-3
 
   - name: nginx
     target_port: 9113
-    target_group: web_servers
-  
+    target_group: 
+      - www-1
+      - www-2
+      - KnOMM-3
+      
   - name: mysql
     target_port: 9104
-    target_group: db_servers
+    target_group:
+      - mysql-1
+      - mysql-2
 
   - name: influxdb
     target_port: 9424
-    target_group: influxdb
+    target_group:
+      - influxdb
 
   - name: haproxy
     target_port: 9101
-    target_group: haproxy
+    target_group: 
+      - lb-1
+      - lb-2
 
   - name: keepalived
     target_port: 9165
-    target_group: keepalived
+    target_group: 
+      - KnOMM-1
+      - KnOMM-2
 
 mysql_backup: backup
 backup_server_ip: 192.168.42.132
@@ -53,7 +71,7 @@ grafana_port: 3001
 agama_amount: 2
 
 influx_host: KnOMM-1 
-mysql_host: KnOMM-2
+mysql_host: KnOMM-1
 keepalived_master: KnOMM-1
 
 mysql_backup_host: "{{ groups['db_servers'] | reject('eq', mysql_host) | first | default(mysql_host) }}"
@@ -131,9 +149,11 @@ dns_cnames:
   - cname: mysql-2
     value: "{{ groups['db_servers'][1] }}"
   - cname: ns-1
-    value: "{{ groups['dns_servers'][0] }}"
+    value: "{{ groups['dns_secondary'][0] }}"
+    # value: "{{ groups['dns_servers'][0] }}"
   - cname: ns-2
-    value: "{{ groups['dns_servers'][1] }}"
+    value: "{{ groups['dns_secondary'][1] }}"
+    # value: "{{ groups['dns_servers'][0] }}"
   - cname: prometheus
     value: "{{ groups['metrics'][0] }}"
   - cname: www-1

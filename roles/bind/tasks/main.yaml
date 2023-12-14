@@ -42,6 +42,8 @@
   notify: Restart Bind9
   when: inventory_hostname in groups['dns_primary']
 
+- meta: flush_handlers
+
 - ansible.builtin.template:
     dest: /var/lib/bind/db.rev
     src: zone.rev.j2

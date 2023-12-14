@@ -1,5 +1,6 @@
 KnOMM-1 ansible_host=193.40.156.67 ansible_port="{{ machine1 }}" ansible_user=ubuntu
 KnOMM-2 ansible_host=193.40.156.67 ansible_port="{{ machine2 }}" ansible_user=ubuntu
+KnOMM-3 ansible_host=193.40.156.67 ansible_port="{{ machine3 }}" ansible_user=ubuntu
 
 [db_servers]
 KnOMM-1
@@ -8,6 +9,7 @@ KnOMM-2
 [web_servers]
 KnOMM-1
 KnOMM-2
+KnOMM-3
 
 [connection]
 KnOMM-1
@@ -18,23 +20,24 @@ dns_primary
 dns_secondary
 
 [dns_primary]
-KnOMM-2
+KnOMM-3
 
 [dns_secondary]
 KnOMM-1
+KnOMM-2
 
 [metrics]
 #KnOMM-1
-KnOMM-2
+KnOMM-3
 
 [grafana]
-KnOMM-1
+KnOMM-3
 
 [influxdb]
-KnOMM-1
+KnOMM-3
 
 [pinger]
-KnOMM-2
+KnOMM-3
 
 [keepalived]
 KnOMM-1

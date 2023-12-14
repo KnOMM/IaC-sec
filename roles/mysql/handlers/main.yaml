@@ -21,7 +21,7 @@
   community.mysql.mysql_replication:
     mode: "{{ item }}"
     login_unix_socket: /var/run/mysqld/mysqld.sock
-    primary_host: "mysql-2"
+    primary_host: "{{ mysql_host }}"
     primary_user: "{{ mysql_replication_user }}"
     primary_password: "{{ mysql_replication_password }}"
   loop:

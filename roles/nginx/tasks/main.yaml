@@ -23,6 +23,15 @@
     - nginx
     - prometheus-nginx-exporter
 
+- name: Copy files to the remote machine
+  ansible.builtin.template:
+    src: size.conf.j2
+    dest: /etc/nginx/conf.d/size.conf
+  notify:
+    - Restart Nginx
+    - Restart Nginx-exporter
+  when: inventory_hostname in groups['grafana']
+
 #- name: Nginx service
 #  ansible.builtin.service:
 #    name: nginx

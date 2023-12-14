@@ -40,6 +40,6 @@
   community.docker.docker_container: 
     name: grafana
     image: grafana/grafana
-    state: started
     volumes: /opt/grafana:/etc/grafana
     published_ports: "{{ grafana_port }}:3000"
+    restart_policy: always
