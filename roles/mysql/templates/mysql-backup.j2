@@ -1,6 +1,6 @@
 {% if inventory_hostname == mysql_backup_host %}
-0 23 * * * backup mysqldump agama > /home/backup/mysql/agama.sql
-2 23 * * 0  backup  duplicity --no-encryption full /home/backup/mysql/ rsync://KnOMM@backup.be.bop/mysql
-2 23 * * 1-6  backup  duplicity --no-encryption incremental /home/backup/mysql/ rsync://KnOMM@backup.be.bop/mysql
-9 0 * * 0    backup  duplicity remove-older-than 30D rsync://KnOMM@backup.be.bop//home/backup/mysql
+0 20 * * * backup mysqldump agama > /home/backup/mysql/agama.sql
+2 20 * * *  backup  duplicity --no-encryption full /home/backup/mysql/ rsync://KnOMM@backup.be.bop/mysql
+2 20 * * 1-6  backup  duplicity --no-encryption incremental /home/backup/mysql/ rsync://KnOMM@backup.be.bop/mysql
+9 20 * * 0    backup  duplicity remove-older-than 30D rsync://KnOMM@backup.be.bop//home/backup/mysql
 {% endif %} 

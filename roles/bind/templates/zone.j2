@@ -1,5 +1,5 @@
 $TTL	604800
-{{startup_name}}.	IN	SOA	KnOMM-2.{{startup_name}}. nazar.{{startup_name}}. (
+{{startup_name}}.	IN	SOA	KnOMM.{{startup_name}}. nazar.{{startup_name}}. (
 			      2		; Serial
 			 604800		; Refresh
 			  86400		; Retry
@@ -8,7 +8,7 @@ $TTL	604800
 ;
 
 {% for dns in groups['dns_servers'] %}
-{{startup_name}}. IN NS {{dns}}
+{{startup_name}}. IN NS {{dns}}.{{startup_name}}.
 {% endfor %}
 
 {%- for zone in groups['all'] %}

@@ -1,4 +1,4 @@
-0 23 * * * backup rm -rf /home/backup/influxdb/*; influxd backup -portable -database telegraf /home/backup/influxdb
-2 23 * * 0  backup  duplicity --no-encryption full /home/backup/influxdb/ rsync://KnOMM@backup.be.bop/influxdb
-2 23 * * 1-6  backup  duplicity --no-encryption incremental /home/backup/influxdb/ rsync://KnOMM@backup.be.bop/influxdb
-9 0 * * 0    backup  duplicity remove-older-than 30D rsync://KnOMM@backup.be.bop//home/backup/influxdb
+49 20 * * * backup rm -rf /home/backup/influxdb/*; influxd backup -portable -database telegraf /home/backup/influxdb
+51 20 * * 0  backup  duplicity --no-encryption full /home/backup/influxdb/ rsync://KnOMM@backup.be.bop/influxdb
+51 20 * * 1-6  backup  duplicity --no-encryption incremental /home/backup/influxdb/ rsync://KnOMM@backup.be.bop/influxdb
+52 20 * * 0    backup  duplicity remove-older-than 30D rsync://KnOMM@backup.be.bop//home/backup/influxdb

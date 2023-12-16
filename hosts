@@ -15,16 +15,16 @@ KnOMM-3
 KnOMM-1
 KnOMM-2
 
-[dns_servers:children]
-dns_primary
-dns_secondary
-
 [dns_primary]
 KnOMM-3
 
 [dns_secondary]
 KnOMM-1
 KnOMM-2
+
+[dns_servers:children]
+dns_primary
+dns_secondary
 
 [metrics]
 #KnOMM-1

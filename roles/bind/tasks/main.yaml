@@ -64,12 +64,13 @@
     key_algorithm: "hmac-sha256"
     key_name: "nsupdate.key"
     key_secret: "{{ dns_update_key }}"
-    server: "{{ hostvars[groups['dns_primary'][0]]['ansible_default_ipv4']['address'] }}"
+    # server: "{{ hostvars[groups['dns_primary'][0]]['ansible_default_ipv4']['address'] }}"
+    server: "localhost"
     zone: "{{ startup_name }}."
     record: "backup.{{ startup_name }}."
     value: "{{ backup_server_ip }}"
     type: "A"
-  when: inventory_hostname in groups['dns_primary'][0]
+  when: inventory_hostname in groups['dns_primary']
   notify: Restart Bind9
 
 - name: Add an CNAME record for backup
@@ -77,11 +78,11 @@
     key_algorithm: "hmac-sha256"
     key_name: "nsupdate.key"
     key_secret: "{{ dns_update_key }}"
-    server: "{{ hostvars[groups['dns_primary'][0]]['ansible_default_ipv4']['address'] }}"
+    server: "localhost"
     zone: "{{ startup_name }}."
     record: "{{ item['cname'] }}.{{ startup_name }}."
     value: "{{ item['value'] }}.{{ startup_name }}."
     type: "CNAME"
   loop: "{{ dns_cnames }}"
-  when: inventory_hostname in groups['dns_primary'][0]
+  when: inventory_hostname in groups['dns_primary']
   notify: Restart Bind9

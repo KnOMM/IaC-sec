@@ -2,7 +2,7 @@ Install and configure infrastructure with Ansible:
 
     ansible-playbook infra.yaml
 
-Restore MySQL data from the backup:
+Restore MySQL data from the backup (run on the main MySQL):
 ```
 rm -rf /home/backup/restore/mysql/
 sudo -u backup duplicity --no-encryption restore rsync://KnOMM@backup.be.bop/mysql /home/backup/restore/mysql
@@ -17,6 +17,7 @@ Restore InfluxDB data from the backup:
 ```
 service telegraf stop
 influx -execute 'DROP DATABASE telegraf'
+sudo -u backup duplicity --no-encryption restore rsync://KnOMM@backup.be.bop/influxdb /home/backup/restore/influxdb
 influxd restore -portable -database telegraf /home/backup/restore/influxdb
 ```    
 You may get these errors if restoring the database:
