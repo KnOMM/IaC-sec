@@ -5,6 +5,7 @@
   loop:
     - dashboards
     - datasources
+  notify: Restart Grafana
 
 - name: Grafana configuration
   ansible.builtin.template:

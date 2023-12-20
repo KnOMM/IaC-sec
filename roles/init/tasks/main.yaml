@@ -50,6 +50,7 @@
     src: 50-telegraf.conf.j2
     dest: /etc/rsyslog.d/50-telegraf.conf
   notify: Restart rsyslog
+  no_log: true
 
 - name: Start rsyslog
   ansible.builtin.service:

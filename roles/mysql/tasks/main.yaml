@@ -11,7 +11,7 @@
     owner: prometheus
     dest: /var/lib/prometheus/.my.cnf
     src: my.cnf.j2
-  no_log: yes
+  no_log: true
   notify:
     - Restart MySQL exporter
     - Restart MySQL
@@ -20,7 +20,7 @@
   ansible.builtin.template:
     dest: /etc/default/prometheus-mysqld-exporter
     src: prometheus-mysqld-exporter.j2
-  no_log: yes
+  no_log: true
   notify:
     - Restart MySQL exporter
     - Restart MySQL
@@ -32,7 +32,7 @@
     group: backup
     dest: /home/backup/.my.cnf
     src: my.cnf.backup.j2
-  no_log: yes
+  no_log: true
 
 - name: Cron tab
   ansible.builtin.template:
@@ -56,6 +56,16 @@
   notify: 
     - Restart MySQL exporter
     - Restart MySQL
+  no_log: true
+
+- name: mysql service
+  ansible.builtin.service:
+    enabled: true
+    name: "{{ item }}"
+    state: started
+  loop:
+    - mysql
+    - prometheus-mysqld-exporter
 
 - name: MySQL database
   community.mysql.mysql_db:
@@ -102,15 +112,6 @@
 #    name: prometheus-mysqld-exporter
 #    state: started
 #    enabled: true
-
-- name: mysql service
-  ansible.builtin.service:
-    enabled: true
-    name: "{{ item }}"
-    state: started
-  loop:
-    - mysql
-    - prometheus-mysqld-exporter
 
 - name: MySQL replica user
   community.mysql.mysql_user:

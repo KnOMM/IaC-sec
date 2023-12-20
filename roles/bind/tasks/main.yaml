@@ -34,8 +34,10 @@
   loop:
     - options
     - local
+  no_log: true
 
-- ansible.builtin.template:
+- name: db.conf
+  ansible.builtin.template:
     dest: /var/lib/bind/db.{{startup_name}}
     src: zone.j2
     force: no
@@ -52,7 +54,8 @@
   # rndc reload
   when: inventory_hostname in groups['dns_primary']
 
-- ansible.builtin.template:
+- name: resolv.conf
+  ansible.builtin.template:
     dest: /etc/resolv.conf
     src: resolv.conf.j2
   loop: "{{groups['all']}}"
@@ -72,6 +75,7 @@
     type: "A"
   when: inventory_hostname in groups['dns_primary']
   notify: Restart Bind9
+  no_log: true
 
 - name: Add an CNAME record for backup
   nsupdate:

@@ -4,6 +4,8 @@
     state: present
     createhome: true
     home: "/home/keepalived_script"
+  notify: 
+    - Restart Keepalived
 
 - name: Copy script
   template:
@@ -25,6 +27,7 @@
     src: keepalived.conf.j2
   notify:
     - Restart Keepalived
+  no_log: true
 
 - name: Keepalived service
   service:

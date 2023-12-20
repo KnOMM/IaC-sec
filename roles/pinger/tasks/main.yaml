@@ -32,8 +32,9 @@
     src: pinger.conf.j2
     dest: /etc/pinger/pinger.conf
   notify:
-    - Restart daemon service
+    # - Restart daemon service
     - Start pinger
+  no_log: true
 
 - name: Start and Enable Pinger
   service:
