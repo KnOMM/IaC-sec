@@ -53,4 +53,3 @@ ansible-playbook infra.yaml
 ## Backup SLA Documentation
 
 For detailed information on backup coverage, RPO, RTO, versioning, retention, usability checks, and restoration criteria, refer to the `backup_sla.md` file.
-```
